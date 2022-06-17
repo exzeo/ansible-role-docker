@@ -1,0 +1,35 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: docker
+  author: exzeo
+  description: Role for installing docker
+  company: "Exzeo"
+  license: MIT
+  min_ansible_version: "2.1"
+  namespace: exzeo
+
+  platforms:
+  - name: Ubuntu
+    versions:
+      - xenial
+      - bionic
+      - focal
+      - hirsute
+      - impish
+  - name: Debian
+    versions:
+      - stretch
+      - buster
+      - bullseye
+      - bookworm
+
+  galaxy_tags: 
+    - docker
+    - compose
+    - dockercompose
+    - dockerengine
+    - utilities
+    - system
+    - linux

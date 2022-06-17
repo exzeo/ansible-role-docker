@@ -1,0 +1,15 @@
+---
+# Toggle to install docker compose
+docker_install_compose: false
+
+# Version of Docker Compose
+docker_compose_version: ""
+
+# Toggling this will uninstall from the server
+uninstall: false
+
+# Toggling this will add the current user to docker users
+docker_add_current_user: true
+
+# Specify user to add docker group to, will read from SUDO_USER if not provided
+docker_user: ""

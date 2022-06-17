@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  
+  - name: Check docker version
+    command: "docker version"
+    ignore_errors: yes
+    register: docker_current_version
+
+  - name: Ensure docker is not installed
+    assert:
+      that:
+        - docker_current_version.rc != 0

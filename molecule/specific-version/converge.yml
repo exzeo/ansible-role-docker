@@ -1,0 +1,8 @@
+---
+- name: Install
+  hosts: all
+  roles:
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
+      vars:
+        docker_compose_version: "{{ lookup('env', 'DOCKER_COMPOSE_VERSION') }}"
+        docker_install_compose: true

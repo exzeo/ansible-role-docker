@@ -1,0 +1,40 @@
+---
+- name: Get latest version of docker-compose
+  ansible.builtin.uri:
+    url: "https://api.github.com/repos/docker/compose/releases/latest"
+    method: GET
+    return_content: true
+    status_code: 200
+    body_format: json
+  register: docker_compose_response
+  when: docker_compose_version|length == 0
+  tags: latest
+
+- name: Set Docker Compose Latest Version # noqa no-handler
+  ansible.builtin.set_fact:
+    docker_compose_version: "{{ docker_compose_response.json.tag_name }}"
+  tags: latest
+  when: docker_compose_version|length == 0 | default('')
+
+- name: Check current docker-compose version.
+  ansible.builtin.command: "docker-compose --version"
+  register: docker_compose_current_version
+  check_mode: false
+  changed_when: false
+  failed_when: false
+
+- name: Install Docker Compose (if configured).
+  ansible.builtin.get_url:
+    url: "{{ docker_compose_url }}"
+    dest: "{{ docker_compose_path }}"
+    mode: 0755
+  when: >
+    docker_compose_current_version.stdout is not defined
+    or docker_compose_version not in docker_compose_current_version.stdout
+
+- name: Install compose plugin
+  ansible.builtin.apt:
+    name: docker-compose-plugin
+    state: present
+    force: true
+    update_cache: yes
