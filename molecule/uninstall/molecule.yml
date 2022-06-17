@@ -6,8 +6,8 @@ driver:
   name: docker
 
 platforms:
-  - name: distro-image
-    image: ${MOLECULE_DISTRO:-ubuntu:bionic}
+  - name: ${DISTRO_NAME:-ubuntu-bionic}
+    image: ${DISTRO_IMAGE:-ubuntu:bionic}
 
 provisioner:
   name: ansible
