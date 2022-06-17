@@ -30,15 +30,24 @@ jobs:
     strategy:
       matrix:
         distro:
-          - ubuntu:xenial
-          - ubuntu:bionic
-          - ubuntu:focal
-          - ubuntu:hirsute
-          - ubuntu:impish
-          - debian:stretch
-          - debian:buster
-          - debian:bullseye
-          - debian:bookworm
+          - name: ubuntu:xenial
+            image: ubuntu:xenial
+          - name: ubuntu:bionic
+            image: ubuntu:bionic
+          - name: ubuntu:focal
+            image: ubuntu:focal 
+          - name: ubuntu:hirsute
+            image: ubuntu:hirsute
+          - name: ubuntu:impish
+            image: ubuntu:impish
+          - name: debian:stretch
+            image: debian:stretch
+          - name: debian:buster
+            image: debian:buster
+          - name: debian:bullseye
+            image: debian:bullseye
+          - name: debian:bookworm
+            image: debian:bookworm
 
     steps:
       - name: Check out the codebase.
@@ -52,15 +61,10 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible molecule[docker] docker
 
-      - name: Set env variables
-        run:
-          DISTRO_IMAGE=${{ matrix.distro }}
-          DISTRO_NAME=$(echo $DISTRO_IMAGE | sed 's/\:/-/g')
-          echo "DISTRO_NAME=$DISTRO_NAME" >> $GITHUB_ENV
-
       - name: Run Molecule tests.
         run: molecule test --all
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          DISTRO_IMAGE: ${{ matrix.distro }}
+          DISTRO_IMAGE: ${{ matrix.distro.image }}
+          DISTRO_NAME: ${{ matrix.distro.name }}
