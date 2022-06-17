@@ -31,12 +31,6 @@ jobs:
       matrix:
         distro:
           - ubuntu:bionic
-          - ubuntu:focal
-          - ubuntu:hirsute
-          - ubuntu:impish
-          - debian:stretch
-          - debian:buster
-          - debian:bullseye
 
     steps:
       - name: Check out the codebase.
