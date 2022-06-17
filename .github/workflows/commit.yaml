@@ -43,24 +43,24 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
-      
-      - name: debug
-        run: |
-          echo ${{ matrix.distro }}
-          
      
-      # - name: Set up Python 3.
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.x'
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-      # - name: Install test dependencies.
-      #   run: pip3 install ansible molecule[docker] docker
-      
-      # - name: Run Molecule tests.
-      #   run: molecule test --all
-      #   env:
-      #     PY_COLORS: '1'
-      #     ANSIBLE_FORCE_COLOR: '1'
-      #     DISTRO_IMAGE: ${{ matrix.distro }}
-      #     DISTRO_NAME: ${ matrix.distro | sed 's/\:/-/g' }
+      - name: Install test dependencies.
+        run: pip3 install ansible molecule[docker] docker
+
+      - name: Set env variables
+        run:
+          DISTRO_IMAGE=${{ matrix.distro }}
+          DISTRO_NAME=$(echo $DISTRO_IMAGE | sed 's/\:/-/g')
+          echo "DISTRO_NAME=$DISTRO_NAME" >> $GITHUB_ENV
+
+      - name: Run Molecule tests.
+        run: molecule test --all
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          DISTRO_IMAGE: ${{ matrix.distro }}
