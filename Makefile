@@ -1,16 +1,8 @@
-tests  := $(wildcard molecule/*)
-scenarios := $(tests)
+install:
+	pipenv install --dev --three
 
-lint:
-	yamllint . 
-	ansible-lint . 
+shell: install
+	pipenv shell
 
-test: lint
-	make all -j5 -O
-
-.PHONY: all
-all: $(scenarios)
-
-.PHONY: $(tests)
-$(tests): 
-	molecule test --parallel -s $(notdir $@)	
+test: install
+	pipenv run molecule test
