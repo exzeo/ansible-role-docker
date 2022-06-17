@@ -58,4 +58,4 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           DISTRO_IMAGE: ${{ matrix.distro }}
-          DISTRO_NAME: ${{ matrix.distro | sed 's/\:/-/g' }}
+          DISTRO_NAME: ${ matrix.distro | sed 's/\:/-/g' }
