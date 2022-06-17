@@ -6,7 +6,7 @@ driver:
   name: docker
 
 platforms:
-  - name: ${DISTRO_NAME:-ubuntu-bionic}
+  - name: distro-image
     image: ${DISTRO_IMAGE:-ubuntu:bionic}
 
 provisioner:

@@ -30,24 +30,15 @@ jobs:
     strategy:
       matrix:
         distro:
-          - name: ubuntu:xenial
-            image: ubuntu:xenial
-          - name: ubuntu:bionic
-            image: ubuntu:bionic
-          - name: ubuntu:focal
-            image: ubuntu:focal 
-          - name: ubuntu:hirsute
-            image: ubuntu:hirsute
-          - name: ubuntu:impish
-            image: ubuntu:impish
-          - name: debian:stretch
-            image: debian:stretch
-          - name: debian:buster
-            image: debian:buster
-          - name: debian:bullseye
-            image: debian:bullseye
-          - name: debian:bookworm
-            image: debian:bookworm
+          - ubuntu:xenial
+          - ubuntu:bionic
+          - ubuntu:focal
+          - ubuntu:hirsute
+          - ubuntu:impish
+          - debian:stretch
+          - debian:buster
+          - debian:bullseye
+          - debian:bookworm
 
     steps:
       - name: Check out the codebase.
@@ -66,5 +57,4 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          DISTRO_IMAGE: ${{ matrix.distro.image }}
-          DISTRO_NAME: ${{ matrix.distro.name }}
+          DISTRO_IMAGE: ${{ matrix.distro }}
