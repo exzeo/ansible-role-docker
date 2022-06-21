@@ -1,0 +1,17 @@
+- name: Verify
+  hosts: all
+  tasks:
+  
+  - name: Check docker compose version
+    command: "docker-compose --version"
+    register: docker_compose_current_version
+
+  - name: Ensure docker compose is installed
+    assert:
+      that:
+        - docker_compose_current_version.rc == 0
+
+  - name: Ensure docker compose is correct version
+    assert:
+      that:
+        - "'1.29.1' in docker_compose_current_version.stdout"

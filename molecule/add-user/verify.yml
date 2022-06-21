@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+
+  tasks:
+    - name: Execute docker version to capture output
+      command: "docker --version"
+      register: docker_current_version
+      changed_when: false
+
+    - name: Ensure docker version output contains correct version string
+      assert:
+        that:
+          - docker_current_version.rc == 0

@@ -1,0 +1,46 @@
+---
+
+- name: Purge docker.io and docker-ce
+  ansible.builtin.apt:
+    pkg:
+      - "{{ docker_package }}-{{ docker_edition }}"
+    purge: true
+    autoremove: yes
+  retries: 5
+  delay: 2
+  tags:
+    - uninstall
+
+- name: Unmount Docker
+  ansible.builtin.mount:
+    path: /var/lib/docker
+    state: unmounted
+  tags:
+    - uninstall
+
+- name: Remove docker files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /usr/local/bin/docker
+    - /var/lib/docker
+    - /etc/docker
+    - /etc/apparmor.d/docker
+    - /var/run/docker.sock
+  tags:
+    - uninstall
+
+- name: Delete docker-compose
+  ansible.builtin.file:
+    path: "{{ docker_compose_path }}"
+    state: absent
+  tags:
+    - uninstall
+
+- name: Delete the docker group
+  ansible.builtin.group:
+    name: docker
+    state: absent
+  tags:
+    - uninstall

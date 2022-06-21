@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: distro-image
+    image: ${DISTRO_IMAGE:-ubuntu:bionic}
+    env:
+      SUDO_USER: "ubuntu"
+      
+provisioner:
+  name: ansible
+  log: true
+  options:
+    vvv: true
+
+verifier:
+  name: ansible

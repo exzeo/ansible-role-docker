@@ -1,0 +1,23 @@
+---
+# Edition can be one of: 'ce' (Community Edition) or 'ee' (Enterprise Edition).
+docker_edition: "ce"
+docker_package: "docker"
+
+#dependencies
+dependencies_packages:
+  - python3
+  - python3-pip
+  - apt-transport-https
+  - ca-certificates
+  - gnupg2
+
+# Docker Compose options.
+docker_compose_url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system | lower }}-{{ ansible_architecture }}"
+docker_compose_path: /usr/local/bin/docker-compose
+
+# Docker repo URL.
+docker_repo_url: https://download.docker.com
+
+# Used only for Debian/Ubuntu. Switch 'stable' to 'nightly' if needed.
+docker_apt_repository: "deb {{ docker_repo_url }}/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+docker_apt_gpg_key: "{{ docker_repo_url }}/{{ ansible_system | lower }}/{{ ansible_distribution | lower }}/gpg"

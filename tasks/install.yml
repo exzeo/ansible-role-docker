@@ -1,0 +1,57 @@
+---
+- name: Set docker_user from env.SUDO_USER
+  ansible.builtin.set_fact:
+    docker_user: "{{ ansible_env.SUDO_USER }}"
+  when: 
+    - docker_user|length == 0
+    - ansible_env.SUDO_USER is defined
+
+- name: Install dependencies
+  ansible.builtin.apt:
+    name: "{{ dependencies_packages }}"
+    state: present
+    force: true
+    update_cache: yes
+  register: package_ok
+  retries: 5
+  delay: 2
+  until: package_ok is success
+  tags:
+    - install
+    - install-dependency
+
+- name: Add Docker GPG apt Key
+  ansible.builtin.apt_key:
+    url: "{{ docker_apt_gpg_key }}"
+    state: present
+
+- name: Install Pip/Docker
+  ansible.builtin.pip: 
+    name: 
+      - docker
+    state: present
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+
+- name: Install docker
+  ansible.builtin.apt: 
+    name: 
+      - "{{ docker_package }}-{{ docker_edition }}"
+      - "{{ docker_package }}-{{ docker_edition }}-cli"
+    state: present
+    update_cache: yes
+  retries: 5
+  delay: 2
+
+- name: "Install docker-compose"
+  include_tasks: install-compose.yml
+  when: docker_install_compose
+
+- name: "Install docker users"
+  include_tasks: install-users.yml
+  when: 
+    - docker_add_current_user
+    - docker_user|length!=0

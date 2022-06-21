@@ -1,0 +1,35 @@
+---
+- name: Verify
+  hosts: all
+
+  tasks:
+    - name: Execute docker version to capture output
+      command: "docker --version"
+      register: docker_current_version
+      changed_when: false
+
+    - name: Ensure docker version output contains correct version string
+      assert:
+        that:
+          - docker_current_version.rc == 0
+
+    - name: Execute docker compose version to capture output
+      command: "docker-compose --version"
+      register: docker_compose_current_version
+      changed_when: false
+
+    - name: Ensure docker compose version output contains correct version string
+      assert:
+        that:
+          - docker_compose_current_version.rc == 0          
+
+    - name: Execute docker compose version to capture output
+      command: "docker compose"
+      register: docker_compose_plugin_current_version
+      failed_when: false
+      changed_when: false          
+
+    - name: Ensure docker compose plugin exists
+      assert:
+        that:
+          - docker_compose_plugin_current_version.rc == 0         

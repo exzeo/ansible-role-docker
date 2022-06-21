@@ -1,0 +1,28 @@
+---
+#--------------------------------------------------------------
+# Debug
+#--------------------------------------------------------------
+# - name: Get {{ ansible_os_family }}
+#   debug:
+#     msg: "{{ ansible_os_family }}"
+
+# - name: Get Docker Compose Version Test
+#   debug:
+#     msg: "{{ docker_compose_version }}"
+
+#--------------------------------------------------------------
+# Tasks
+#--------------------------------------------------------------
+- name: Install docker
+  include_tasks: "install.yml"
+  when: >
+    uninstall == false
+  tags:
+    - install
+
+- name: Uninstall docker
+  include_tasks: "uninstall.yml"
+  when: >
+    uninstall == true
+  tags:
+    - uninstall
