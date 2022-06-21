@@ -13,17 +13,14 @@ galaxy_info:
   platforms:
   - name: Ubuntu
     versions:
-      - xenial
       - bionic
       - focal
       - hirsute
       - impish
   - name: Debian
     versions:
-      - stretch
       - buster
       - bullseye
-      - bookworm
 
   galaxy_tags: 
     - docker
