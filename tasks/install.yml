@@ -41,6 +41,8 @@
     name: 
       - "{{ docker_package }}-{{ docker_edition }}"
       - "{{ docker_package }}-{{ docker_edition }}-cli"
+    retries: 5
+    delay: 2
     state: present
     update_cache: yes
 
